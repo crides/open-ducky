@@ -18,17 +18,17 @@ typedef union {unsigned int i; unsigned char c[2];} WORD;
 
 // Define Endpoint Packet Sizes
 #define  EP0_PACKET_SIZE         0x40
-#define  EP1_PACKET_SIZE         0x000A// Can range 0 - 1024 depending on data
+#define  EP1_PACKET_SIZE         0x0014// Can range 0 - 1024 depending on data
                                        // and transfer type
 
-#define  EP1_PACKET_SIZE_LE      0x0A00// IMPORTANT- this should be
+#define  EP1_PACKET_SIZE_LE      0x1400// IMPORTANT- this should be
                                        // Little-Endian version of
                                        //  EP1_PACKET_SIZE
 
-#define  EP2_PACKET_SIZE         0x000A// Can range 0 - 1024 depending on data
+#define  EP2_PACKET_SIZE         0x0014// Can range 0 - 1024 depending on data
                                        // and transfer type
 
-#define  EP2_PACKET_SIZE_LE      0x0A00// IMPORTANT- this should be
+#define  EP2_PACKET_SIZE_LE      0x1400// IMPORTANT- this should be
                                        // Little-Endian version of
                                        // EP2_PACKET_SIZE
 

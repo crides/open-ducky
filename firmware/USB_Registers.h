@@ -2,31 +2,30 @@
 #define  _USB_REGS_H_
 
 // USB Core Registers
-#define  BASE     0x00
-#define  FADDR    BASE
-#define  POWER    BASE + 0x01
-#define  IN1INT   BASE + 0x02
-#define  OUT1INT  BASE + 0x04
-#define  CMINT    BASE + 0x06
-#define  IN1IE    BASE + 0x07
-#define  OUT1IE   BASE + 0x09
-#define  CMIE     BASE + 0x0B
-#define  FRAMEL   BASE + 0x0C
-#define  FRAMEH   BASE + 0x0D
-#define  INDEX    BASE + 0x0E
-#define  CLKREC   BASE + 0x0F
-#define  E0CSR    BASE + 0x11
-#define  EINCSR1  BASE + 0x11
-#define  EINCSR2  BASE + 0x12
-#define  EOUTCSR1 BASE + 0x14
-#define  EOUTCSR2 BASE + 0x15
-#define  E0CNT    BASE + 0x16
-#define  EOUTCNTL BASE + 0x16
-#define  EOUTCNTH BASE + 0x17
-#define  FIFO_EP0 BASE + 0x20
-#define  FIFO_EP1 BASE + 0x21
-#define  FIFO_EP2 BASE + 0x22
-#define  FIFO_EP3 BASE + 0x23
+#define  FADDR    0x00
+#define  POWER    0x01
+#define  IN1INT   0x02
+#define  OUT1INT  0x04
+#define  CMINT    0x06
+#define  IN1IE    0x07
+#define  OUT1IE   0x09
+#define  CMIE     0x0B
+#define  FRAMEL   0x0C
+#define  FRAMEH   0x0D
+#define  INDEX    0x0E
+#define  CLKREC   0x0F
+#define  E0CSR    0x11
+#define  EINCSR1  0x11
+#define  EINCSR2  0x12
+#define  EOUTCSR1 0x14
+#define  EOUTCSR2 0x15
+#define  E0CNT    0x16
+#define  EOUTCNTL 0x16
+#define  EOUTCNTH 0x17
+#define  FIFO_EP0 0x20
+#define  FIFO_EP1 0x21
+#define  FIFO_EP2 0x22
+#define  FIFO_EP3 0x23
 
 // USB Core Register Bits
 

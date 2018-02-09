@@ -86,28 +86,114 @@ const hid_configuration_descriptor code HIDCONFIGDESC = {
 
 const hid_report_descriptor code HIDREPORTDESC = {
     // Keyboard Section
-    0x05, 0x01,           // USAGE_PAGE (Generic Desktop)
-	0x09, 0x06,           // USAGE (Keyboard)
-	0xA1, 0x01,           // COLLECTION (Application)
-	//0x85, REPID_KB,       // REPORT_ID
-	0x75, 0x01,           //   REPORT_SIZE (1)
-	0x95, 0x08,           //   REPORT_COUNT (8)
-	0x05, 0x07,           //   USAGE_PAGE (Keyboard)(Key Codes)
-	0x19, 0xE0,           //   USAGE_MINIMUM (Keyboard LeftControl)(224)
-	0x29, 0xE7,           //   USAGE_MAXIMUM (Keyboard Right GUI)(231)
-	0x15, 0x00,           //   LOGICAL_MINIMUM (0)
-	0x25, 0x01,           //   LOGICAL_MAXIMUM (1)
-	0x81, 0x02,           //   INPUT (Data,Var,Abs) ; Modifier byte
+    0x05, 0x01,             // USAGE_PAGE (Generic Desktop)
+	0x09, 0x06,             // USAGE (Keyboard)
+	0xA1, 0x01,             // COLLECTION (Application)
+    0x85, REPID_KB,         // REPORT_ID
+	0x75, 0x01,             //   REPORT_SIZE (1)
+	0x95, 0x08,             //   REPORT_COUNT (8)
+	0x05, 0x07,             //   USAGE_PAGE (Keyboard)(Key Codes)
+	0x19, 0xE0,             //   USAGE_MINIMUM (Keyboard LeftControl)(224)
+	0x29, 0xE7,             //   USAGE_MAXIMUM (Keyboard Right GUI)(231)
+	0x15, 0x00,             //   LOGICAL_MINIMUM (0)
+	0x25, 0x01,             //   LOGICAL_MAXIMUM (1)
+	0x81, 0x02,             //   INPUT (Data,Var,Abs) ; Modifier byte
+	0x95, 0x01,             //   REPORT_COUNT (1)
+	0x75, 0x08,             //   REPORT_SIZE (8)
+	0x15, 0x00,             //   LOGICAL_MINIMUM (0)
+	0x25, 0xE7,             //   LOGICAL_MAXIMUM (231)
+	0x05, 0x07,             //   USAGE_PAGE (Keyboard)(Key Codes)
+	0x19, 0x00,             //   USAGE_MINIMUM (Reserved (no event indicated))(0)
+	0x29, 0xE7,             //   USAGE_MAXIMUM (Right Super)(231)
+	0x81, 0x00,             //   INPUT (Data,Ary,Abs)
+	0xC0,                   // END_COLLECTION
 
-	0x95, 0x01,           //   REPORT_COUNT (1)
-	0x75, 0x08,           //   REPORT_SIZE (8)
-	0x15, 0x00,           //   LOGICAL_MINIMUM (0)
-	0x25, 0xE7,           //   LOGICAL_MAXIMUM (231)
-	0x05, 0x07,           //   USAGE_PAGE (Keyboard)(Key Codes)
-	0x19, 0x00,           //   USAGE_MINIMUM (Reserved (no event indicated))(0)
-	0x29, 0xE7,           //   USAGE_MAXIMUM (Right Super)(231)
-	0x81, 0x00,           //   INPUT (Data,Ary,Abs)
-	0xC0,                 // END_COLLECTION
+    0x05, 0x01,             // Usage Page (Generic Desktop)
+    0x09, 0x02,             // Usage (Mouse)
+    0xA1, 0x01,             // Collection (Application)
+    0x09, 0x01,             //   Usage (Pointer)
+    0xA1, 0x00,             //   Collection (Physical)
+    0x85, REPID_MOUSE_BTN,  //   REPORT_ID
+    0x05, 0x09,             //     Usage Page (Buttons)
+    0x19, 0x01,             //     Usage Minimum (01)
+    0x29, 0x03,             //     Usage Maximum (03)
+    0x15, 0x00,             //     Logical Minimum (0)
+    0x25, 0x01,             //     Logical Maximum (1)
+    0x95, 0x03,             //     Report Count (3)
+    0x75, 0x01,             //     Report Size (1)
+    0x81, 0x02,             //     Input (Dat, Var, Abs) ; Buttons
+    0xC0,                   //   END_COLLECTION
+    0xC0,                   // END_COLLECTION
+
+#if 1
+    0x05, 0x01,             // Usage Page (Generic Desktop)
+    0x09, 0x02,             // Usage (Mouse)
+    0xA1, 0x01,             // Collection (Application)
+    0x09, 0x01,             //   Usage (Pointer)
+    0xA1, 0x00,             //   Collection (Physical)
+    0x85, REPID_MOUSE_ABS,  //   REPORT_ID
+    0x05, 0x01,             //     Usage Page (Generic Desktop)
+    0x09, 0x30,             //     Usage (X)
+    0x09, 0x31,             //     Usage (Y)
+#if 0
+    0x15, 0x81,             //     Logical Minimum (0)
+    0x25, 0x7F,             //     logical Maximum (255)
+    0x75, 0x08,             //     Report Size (8)
+    0x95, 0x02,             //     Report Count (2)
+    0x81, 0x06,             //     INPUT (Data, Var, Rel)
+#else
+    0x15, 0x00,             //     Logical Minimum (0)
+    0x25, 0xFF,             //     Logical Maximum (255)
+    0x75, 0x08,             //     Report Size (8)
+    0x95, 0x02,             //     Report Count (2)
+    0x81, 0x02,             //     INPUT (Data, Var, Abs)
+#endif
+    0xC0,                   //   END_COLLECTION
+    0xC0,                   // END_COLLECTION
+
+    0x05, 0x14,             // Usage Page (Alphanumeric Display)
+    0xA1, 0x2D,             // Collection (Display Status)
+    0x09, 0x39,             //   Usage (Cursor Enable)
+    0x19, 0x01,             //     Usage Minimum (0)
+    0x29, 0x01,             //     Usage Maximum (1)
+    0x15, 0x00,             //     Logical Minimum (0)
+    0x25, 0x01,             //     Logical Maximum (1)
+    0x95, 0x01,             //     Report Count (1)
+    0x75, 0x01,             //     Report Size (1)
+    0xB1, 0x03,             //     Feature (Cnst, Var, Abs)
+    0xC0,                   // END_COLLECTION
+
+#else
+    0x05, 0x0d,                         // USAGE_PAGE (Digitizers)
+    0x09, 0x04,                         // USAGE (Touch Screen)
+    0xa1, 0x01,                         // COLLECTION (Application)
+    0x09, 0x20,                         //   USAGE (Stylus)
+    0xa1, 0x00,                         //   COLLECTION (Physical)
+	0x85, REPID_MOUSE_ABS,				// 	 REPORT ID
+    0x05, 0x01,                         //     USAGE_PAGE (Generic Desktop)
+    0x25, 0xff,                         //     LOGICAL_MAXIMUM ()
+    0x75, 0x08,                         //     REPORT_SIZE (8)
+    0x95, 0x01,                         //     REPORT_COUNT (1)
+    0xa4,                               //     PUSH
+    0x55, 0x0d,                         //     UNIT_EXPONENT (-3)
+    0x65, 0x00,                         //     UNIT (None)
+    0x09, 0x30,                         //     USAGE (X)
+    0x09, 0x31,                         //     USAGE (Y)
+    0x35, 0x00,                         //     PHYSICAL_MINIMUM (0)
+    0x45, 0x00,		                    //     PHYSICAL_MAXIMUM (0)
+    0x95, 0x02,                         //     REPORT_COUNT (2)
+    0x81, 0x02,                         //     INPUT (Data,Var,Abs)
+    0xb4,                               //     POP
+//    0x05, 0x0d,                         //     USAGE PAGE (Digitizers)
+//    0x09, 0x48,                         //     USAGE (Width)
+//    0x09, 0x49,                         //     USAGE (Height)
+//    0x95, 0x02,                         //     REPORT_COUNT (2)
+//    0x81, 0x02,                         //     INPUT (Data,Var,Abs)
+//    0x95, 0x01,                         //     REPORT_COUNT (1)
+//    0x81, 0x03,                         //     INPUT (Cnst,Ary,Abs)
+    0xc0,                               //   END_COLLECTION
+    0xc0,                               // END_COLLECTION
+#endif
 };
 
 #define STR0LEN 4
@@ -148,7 +234,7 @@ code const unsigned char String2Desc [STR2LEN] = {
    'y', 0,
 }; //end of String2Desc
 
-unsigned char* const STRINGDESCTABLE [] = {
+code unsigned char* const STRINGDESCTABLE [] = {
    String0Desc,
    String1Desc,
    String2Desc

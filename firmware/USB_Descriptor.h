@@ -109,16 +109,20 @@ typedef code struct {
 	endpoint_descriptor 		hid_endpoint_out_descriptor;
 } hid_configuration_descriptor;
 
-#define HID_REPORT_DESCRIPTOR_SIZE 0x0060
-#define HID_REPORT_DESCRIPTOR_SIZE_LE 0x6000
+#define HID_REPORT_DESCRIPTOR_SIZE 0x0080
+#define HID_REPORT_DESCRIPTOR_SIZE_LE 0x8000
 
-#define REPID_MOUSE         1
-#define REPID_KEYBOARD      2
-#define REPID_MMKEY         3
-#define REPID_SYSCTRLKEY    4
+#define REPID_KB	        1
+#define REPID_MOUSE_BTN     2
+#define REPID_MOUSE_ABS     3
+#define REPID_MOUSE_REL     4
+
 #define SYSCLK				12000000
 
 typedef code unsigned char hid_report_descriptor[HID_REPORT_DESCRIPTOR_SIZE];
+
+//#define HID_REPORT_DESCRIPTOR_SIZE sizeof(HIDREPORTDESC)
+//#define HID_REPORT_DESCRIPTOR_SIZE_LE ((HID_REPORT_DESCRIPTOR_SIZE & 0xFF) << 8 | HID_REPORT_DESCRIPTOR_SIZE >> 8)
 
 //-----------------------------
 // SETUP Packet Type Definition

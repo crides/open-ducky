@@ -1,4 +1,4 @@
-#include "c8051f340.h"
+#include "c8051f320.h"
 #include "USB_Registers.h"
 #include "USB0_ISR.h"
 #include "USB_Descriptor.h"
@@ -8,7 +8,7 @@
 // Variables
 //-----------------------------------------------------------------------------
 extern device_descriptor DEVICEDESC;   // These are created in F3xx_USB0_Descriptor.h
-extern unsigned char* STRINGDESCTABLE[];
+extern code unsigned char* STRINGDESCTABLE[];
 
 // Additional declarations for HID:
 extern hid_configuration_descriptor 	HIDCONFIGDESC;
@@ -630,10 +630,10 @@ void Set_Idle (void)
 void Get_Report (void)
 {
    // call appropriate handler to prepare buffer
-   ReportHandler_IN(SETUP.wValue.c[LSB]);
+//   process_IN(SETUP.wValue.c[LSB]);
    // set DATAPTR to buffer used inside Control Endpoint
    DATAPTR = IN_BUFFER.Ptr;
-   DATASIZE = IN_BUFFER.Length;
+   DATASIZE = 0;//IN_BUFFER.Length;
 
    if (EP_STATUS[0] != EP_STALL)
    {
@@ -673,6 +673,3 @@ void Set_Report (void)
       DATASENT = 0;                    // Reset DATASENT counter
    }
 }
-
-
-

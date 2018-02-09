@@ -1,7 +1,15 @@
-#include <c8051f340.h>
+#include "c8051f320.h"
 #include "flash.h"
 
+//-----------------------------------------------------------------------------
+// Static Global Variables
+//-----------------------------------------------------------------------------
+
 static unsigned char FlashKey[2];
+
+//-----------------------------------------------------------------------------
+// Global Functions
+//-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
 // SetFlashKey
@@ -21,9 +29,9 @@ static unsigned char FlashKey[2];
 // Disable flash writes: key[2] = { 0x00, 0x00 }
 //
 //-----------------------------------------------------------------------------
-void SetFlashKey(unsigned char key1, unsigned key2) {
-   FlashKey[0] = key1;
-   FlashKey[1] = key2;
+void SetFlashKey(unsigned char k1, unsigned char k2) {
+   FlashKey[0] = k1;
+   FlashKey[1] = k2;
 }
 
 //-----------------------------------------------------------------------------
@@ -37,9 +45,7 @@ void SetFlashKey(unsigned char key1, unsigned key2) {
 // Erases the specified flash page
 //
 //-----------------------------------------------------------------------------
-void EraseFlashPage(unsigned int pageAddress)
-{
-   unsigned char EA_Save = EA;
+void EraseFlashPage(unsigned int pageAddress) {
    unsigned char xdata * pAddr = (unsigned char xdata *) pageAddress;
 
    // Disable interrupts
@@ -59,7 +65,7 @@ void EraseFlashPage(unsigned int pageAddress)
    PSCTL = 0x00;
 
    // Restore interrupts
-   EA = EA_Save;
+   EA = 1;
 }
 
 //-----------------------------------------------------------------------------
@@ -76,9 +82,7 @@ void EraseFlashPage(unsigned int pageAddress)
 // Write the specified number of bytes in the buffer to the specified address.
 //
 //-----------------------------------------------------------------------------
-void WriteFlashPage(unsigned int address, unsigned char* buffer, unsigned int size)
-{
-   unsigned char EA_Save = EA;
+void WriteFlashPage(unsigned int address, unsigned char* buffer, unsigned int size) {
    unsigned char xdata * pAddr = (unsigned char xdata *) address;
    unsigned int i;
 
@@ -88,13 +92,7 @@ void WriteFlashPage(unsigned int address, unsigned char* buffer, unsigned int si
    // Enable program writes
    PSCTL = 0x01;
 
-#if FLASH_GROUP_WRITE_EN
-   // Enable two-byte flash writes
-   PFE0CN |= 0x01;
-#endif // FLASH_GROUP_WRITE_EN
-
-   for (i = 0; i < size; i++)
-   {
+   for (i = 0; i < size; i++) {
       // Write flash key codes
       FLKEY = FlashKey[0];
       FLKEY = FlashKey[1];
@@ -107,30 +105,5 @@ void WriteFlashPage(unsigned int address, unsigned char* buffer, unsigned int si
    PSCTL = 0x00;
 
    // Restore interrupts
-   EA = EA_Save;
-}
-
-//-----------------------------------------------------------------------------
-// ReadFlashPage
-//-----------------------------------------------------------------------------
-//
-// Return Value : None
-// Parameters   :
-//                1) unsigned int address : the address of the flash page to read
-//                2) unsigned char buffer[] : a buffer to read from the flash page starting
-//                                 at the specified page address
-//                3) unsigned int size : the number of bytes to read into the buffer
-//
-// Read the specified number of bytes from flash and store in the buffer.
-//
-//-----------------------------------------------------------------------------
-void ReadFlashPage(unsigned int address, unsigned char* buffer, unsigned int size)
-{
-   unsigned char xdata * pAddr = (unsigned char xdata *) address;
-   unsigned int i;
-
-   for (i = 0; i < size; i++)
-   {
-      buffer[i] = pAddr[i];
-   }
+   EA = 1;
 }

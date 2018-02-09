@@ -1,4 +1,4 @@
-#include "c8051f340.h"
+#include "c8051f320.h"
 #include "USB_Registers.h"
 #include "USB0_ISR.h"
 #include "USB_Descriptor.h"
@@ -62,7 +62,6 @@ void Usb_ISR () interrupt 8 {      // Top-level USB ISR
       }
       if (bCommon & rbRSTINT)          // Handle Reset interrupt
       {
-      	 //LED = 1;
          Usb_Reset ();
       }
       if (bIn & rbEP0)                 // Handle SETUP packet received
@@ -71,7 +70,6 @@ void Usb_ISR () interrupt 8 {      // Top-level USB ISR
       }
       if (bIn & rbIN1)                 // Handle In Packet sent, put new data
       {                                // on endpoint 1 fifo
-		 //LED = 0;
          Handle_In1 ();
       }
       if (bOut & rbOUT1)               // Handle Out packet received, take
@@ -338,13 +336,12 @@ void Handle_Control () {
          // ID, which is the first by the of DATAPTR's buffer
          if ( (EP_STATUS[0] == EP_IDLE) && (SETUP.bRequest == SET_REPORT) )
          {
-            OUT_Report (DATAPTR);
+        	 process_OUT (DATAPTR);
          }
 
          if (EP_STATUS[0] != EP_STALL) POLL_WRITE_BYTE (E0CSR, ControlReg);
       }
    }
-
 }
 
 //-----------------------------------------------------------------------------
@@ -398,7 +395,7 @@ void Handle_Out1 () {
       // the host will still format OUT packets with a prefix byte
       // of '0x00'.
 
-      OUT_Report(OUT_BUFFER.Ptr);
+      process_OUT(OUT_BUFFER.Ptr);
 
       POLL_WRITE_BYTE (EOUTCSR1, 0);   // Clear Out Packet ready bit
    }
@@ -514,7 +511,7 @@ void Force_Stall () {
 // transmitted.
 //-----------------------------------------------------------------------------
 
-void SendPacket () {
+void SendPacket () interrupt INTERRUPT_TIMER2 {
     unsigned char ControlReg;
 
     EA = 0;
@@ -524,10 +521,8 @@ void SendPacket () {
     POLL_READ_BYTE (EINCSR1, ControlReg);
 
     if (EP_STATUS[1] == EP_HALT) {      // If endpoint is currently halted, send a stall
-        //LED = 1;
         POLL_WRITE_BYTE (EINCSR1, rbInSDSTL);
     } else if(EP_STATUS[1] == EP_IDLE) {
-        //LED = 0;
         // the state will be updated inside the ISR handler
         EP_STATUS[1] = EP_TX;
 
@@ -539,7 +534,7 @@ void SendPacket () {
             POLL_WRITE_BYTE (EINCSR1, 0x00);
         }
 
-        if (IN_Report()) {
+        if (send_inst()) {
             // Put new data on Fifo
             Fifo_Write (FIFO_EP1, IN_BUFFER.Length, IN_BUFFER.Ptr);
         }
@@ -547,4 +542,5 @@ void SendPacket () {
                                                 // indicating fresh data on FIFO 1
     }
     EA = 1;
+    TF2H = 0;                           // Clear Timer2 interrupt flag
 }

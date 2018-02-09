@@ -6,11 +6,13 @@ typedef struct{
    unsigned char* Ptr;
 } BufferStructure;
 
-bit IN_Report();
-bit OUT_Report(unsigned char *);
+bit send_inst();
 void press_key(unsigned char modifiers, unsigned char keycode);
-extern void ReportHandler_IN(unsigned char);
-extern void Setup_OUT_BUFFER(void);
+void mouse_move_to(unsigned char x, unsigned char y);
+void click(unsigned char btn);
+void process_IN(unsigned char d);
+void process_OUT(unsigned char *d);
+void Setup_OUT_BUFFER();
 
 extern BufferStructure IN_BUFFER, OUT_BUFFER;
 
